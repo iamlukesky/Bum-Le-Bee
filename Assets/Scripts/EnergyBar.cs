@@ -4,7 +4,7 @@ using System.Collections;
 public class EnergyBar : MonoBehaviour {
 
 	public Sprite[] energylevels;
-	public GameObject player;
+	public PlayerController player;
 
 	// Use this for initialization
 	void Start () {
