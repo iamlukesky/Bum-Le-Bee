@@ -1,9 +1,10 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\..\Documents\unity\example2d\Assets\Scripts\Player.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnergyBar.cs">
     <Files>
-      <File FileName="..\..\..\Documents\unity\example2d\Assets\Scripts\Player.cs" Line="35" Column="49" />
-      <File FileName="..\..\..\Documents\unity\example2d\Assets\Scripts\GameManager.cs" Line="13" Column="37" />
+      <File FileName="Assets\Scripts\CameraFollow.cs" Line="20" Column="1" />
+      <File FileName="Assets\Scripts\PlayerController.cs" Line="39" Column="36" />
+      <File FileName="Assets\Scripts\EnergyBar.cs" Line="15" Column="62" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
