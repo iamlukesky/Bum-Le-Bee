@@ -13,8 +13,12 @@ public class PlayerController : MonoBehaviour {
 	public int bottomEdge;
 	private Animator animator;
 
-	public int energy;
+	public float energy;
+	public float energyDecrease;
+
 	public int nectar;
+
+	public float maxVelocity;
 
 	private bool flapping = false;
 
@@ -28,36 +32,45 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		//movement
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
+
+		if (energy <= 0 && moveVertical > 0) {
+			moveVertical = 0;
+		}
+
 		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
 		rb.AddForce(movement * speed);
-		
+		rb.velocity = Vector3.ClampMagnitude (rb.velocity, maxVelocity);
+
+		//sprite orientation
 		if (Input.GetKeyDown (KeyCode.RightArrow) && facingRight == false) {
-
 			flip ();
-
 		} else if (Input.GetKeyDown (KeyCode.LeftArrow) && facingRight == true) {
-		
 			flip ();	
 		}
 
+		//trigger flapping animation
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
 			flapping = true;
-
 		}
-
 		if (Input.GetKeyUp (KeyCode.UpArrow)) {
 			flapping = false;
-			
 		}
-
 		if (flapping) {
 			animator.SetTrigger("flap");
 		}
 
+		//energylevels
+		if (flapping) {
+			energy -= energyDecrease;
+		}else{
+			energy += energyDecrease;
+		}
+
 		checkEdges ();
-		Debug.Log (transform.position.x);
+		Debug.Log (energy);
 	}
 
 	void checkEdges(){
