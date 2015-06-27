@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour {
 
 	public float energy;
 	public float energyDecrease;
+	public float energyMax;
+	public float energyMin;
 
 	public int nectar;
 
@@ -67,6 +69,12 @@ public class PlayerController : MonoBehaviour {
 			energy -= energyDecrease;
 		}else{
 			energy += energyDecrease;
+		}
+		if (energy <= energyMin) {
+			///energy = energyMin;
+		}
+		if (energy >= energyMax) {
+			energy = energyMax;
 		}
 
 		checkEdges ();
