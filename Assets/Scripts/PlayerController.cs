@@ -83,6 +83,13 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void OnTriggerEnter2D(Collider2D other){ //Collider2D
+		if (other.gameObject.CompareTag("Pick Up")) {
+			//other.gameObject.SetActive(false);
+			Destroy(other.gameObject);
+			Debug.Log("Träff");
+		}
+	}
 
 	private void flip()
 	{
