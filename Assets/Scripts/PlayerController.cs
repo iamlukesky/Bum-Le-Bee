@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
 	public int energy;
 	public int nectar;
 
+	private bool flapping = false;
+
 
 
 	// Use this for initialization
@@ -41,8 +43,17 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			animator.SetTrigger("flap");
+			flapping = true;
 
+		}
+
+		if (Input.GetKeyUp (KeyCode.UpArrow)) {
+			flapping = false;
+			
+		}
+
+		if (flapping) {
+			animator.SetTrigger("flap");
 		}
 
 		checkEdges ();
