@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 	private bool facingRight = false;
 
 	private Rigidbody2D rb;
-	public float speed;
+	public float power;
 	public int rightEdge;
 	public int leftEdge;
 	public int topEdge;
@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour {
 	public float energyDecrease;
 	public float energyMax;
 	public float energyMin;
+
+	public float powerDecrease;
 
 	public int nectar;
 
@@ -43,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
-		rb.AddForce(movement * speed);
+		rb.AddForce(movement * power);
 		rb.velocity = Vector3.ClampMagnitude (rb.velocity, maxVelocity);
 
 		//sprite orientation
@@ -71,14 +73,18 @@ public class PlayerController : MonoBehaviour {
 			energy += energyDecrease;
 		}
 		if (energy <= energyMin) {
-			///energy = energyMin;
+			energy = energyMax;
+			power -= powerDecrease;
+
 		}
 		if (energy >= energyMax) {
 			energy = energyMax;
 		}
 
+
+
 		checkEdges ();
-		Debug.Log (energy);
+		//Debug.Log (energy);
 	}
 
 	void checkEdges(){
@@ -116,10 +122,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){ //Collider2D
-		if (other.gameObject.CompareTag("Pick Up")) {
-			//other.gameObject.SetActive(false);
-			Destroy(other.gameObject);
-			Debug.Log("Träff");
+		if (other.gameObject.CompareTag("Pick Up") && rb.velocity.magnitude < 2) {
+			other.gameObject.SetActive(false);
+			//Destroy(other.gameObject);
+			//Debug.Log("Träff");
 		}
 	}
 
