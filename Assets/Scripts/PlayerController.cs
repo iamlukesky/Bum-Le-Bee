@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour {
 
 		source.clip = buzzSound;
 		source.loop = true;
-		source.Play ();
+		//source.Play ();
 
 	}
 	
@@ -149,22 +149,6 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (energy >= energyMax) {
 			energy = energyMax;
-		}
-
-		//source.Play ();
-		if (flapping) {
-			//if(!source.isPlaying){
-				source.clip = flapSound;
-				//source.loop = true;
-				source.Play();
-			//}
-		} else {
-			if(!source.isPlaying){
-				source.clip = buzzSound;
-				source.volume = 0.3f;
-				//source.loop = true;
-				source.Play();
-			}
 		}
 		
 		checkEdges ();
