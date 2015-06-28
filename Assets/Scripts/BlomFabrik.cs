@@ -13,9 +13,12 @@ public class BlomFabrik : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GameObject prefab = Resources.Load ("blomma") as GameObject;
+		GameObject prefab = Resources.Load ("Prefabs/blomma") as GameObject;
 
 		for (int i = 0; i < antalBlommor; i++) {
+
+			GameObject go = Instantiate(prefab) as GameObject;
+			go.transform.position = new Vector3( Random.Range(spawnAreaLeft, spawnAreaRight), Random.Range(spawnAreaTop, spawnAreaBottom), 0f);
 
 		//	Vector3 pos = new Vector3( Random.Range(spawnAreaLeft, spawnAreaRight), Random.Range(spawnAreaTop, spawnAreaBottom), 0f);
 
