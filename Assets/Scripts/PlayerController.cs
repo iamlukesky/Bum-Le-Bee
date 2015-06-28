@@ -3,6 +3,10 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+	public AudioClip buzzSound;
+	public AudioClip flapSound;
+	private AudioSource source;
+
 	private bool facingRight = false;
 
 	private Rigidbody2D rb;
@@ -32,6 +36,12 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		animator = GetComponent<Animator>();
 		rb = GetComponent<Rigidbody2D> ();
+		source = GetComponent<AudioSource> ();
+
+		source.clip = buzzSound;
+		source.loop = true;
+		source.Play ();
+
 	}
 	
 	// Update is called once per frame
@@ -140,8 +150,22 @@ public class PlayerController : MonoBehaviour {
 		if (energy >= energyMax) {
 			energy = energyMax;
 		}
-		
-		
+
+		//source.Play ();
+		if (flapping) {
+			//if(!source.isPlaying){
+				source.clip = flapSound;
+				//source.loop = true;
+				source.Play();
+			//}
+		} else {
+			if(!source.isPlaying){
+				source.clip = buzzSound;
+				source.volume = 0.3f;
+				//source.loop = true;
+				source.Play();
+			}
+		}
 		
 		checkEdges ();
 		//Debug.Log (energy);
