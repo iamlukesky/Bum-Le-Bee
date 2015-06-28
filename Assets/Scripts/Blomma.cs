@@ -27,4 +27,5 @@ public class Blomma : MonoBehaviour {
 		angle += angleInc;
 			//(transform.rotation.x, transform.rotation.y, Mathf.Sin (angle) * 30);
 	}
+
 }
