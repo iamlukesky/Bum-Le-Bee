@@ -36,55 +36,9 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		//movement
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
-
-		if (energy <= 0 && moveVertical > 0) {
-			moveVertical = 0;
-		}
-
-		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
-		rb.AddForce(movement * power);
-		rb.velocity = Vector3.ClampMagnitude (rb.velocity, maxVelocity);
-
-		//sprite orientation
-		if (Input.GetKeyDown (KeyCode.RightArrow) && facingRight == false) {
-			flip ();
-		} else if (Input.GetKeyDown (KeyCode.LeftArrow) && facingRight == true) {
-			flip ();	
-		}
-
-		//trigger flapping animation
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-			flapping = true;
-		}
-		if (Input.GetKeyUp (KeyCode.UpArrow)) {
-			flapping = false;
-		}
-		if (flapping) {
-			animator.SetTrigger("flap");
-		}
-
-		//energylevels
-		if (flapping) {
-			energy -= energyDecrease;
-		}else{
-			energy += energyDecrease;
-		}
-		if (energy <= energyMin) {
-			energy = energyMax;
-			power -= powerDecrease;
-
-		}
-		if (energy >= energyMax) {
-			energy = energyMax;
-		}
 
 
 
-		checkEdges ();
-		//Debug.Log (energy);
 	}
 
 	void checkEdges(){
@@ -139,5 +93,57 @@ public class PlayerController : MonoBehaviour {
 		transform.localScale = theScale;
 		//transform.localScale *= new Vector3 (-1, 0, 0);
 		//transform.localScale = new Vector3(transform.localScale.x * -1, 0, 0);
+	}
+
+	void FixedUpdate(){
+		//movement
+		float moveHorizontal = Input.GetAxis ("Horizontal");
+		float moveVertical = Input.GetAxis ("Vertical");
+		
+		if (energy <= 0 && moveVertical > 0) {
+			moveVertical = 0;
+		}
+		
+		Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
+		rb.AddForce(movement * power);
+		rb.velocity = Vector3.ClampMagnitude (rb.velocity, maxVelocity);
+
+		//sprite orientation
+		if (Input.GetKeyDown (KeyCode.RightArrow) && facingRight == false) {
+			flip ();
+		} else if (Input.GetKeyDown (KeyCode.LeftArrow) && facingRight == true) {
+			flip ();	
+		}
+		
+		//trigger flapping animation
+		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+			flapping = true;
+		}
+		if (Input.GetKeyUp (KeyCode.UpArrow)) {
+			flapping = false;
+		}
+		if (flapping) {
+			animator.SetTrigger("flap");
+		}
+		
+		//energylevels
+		if (flapping) {
+			energy -= energyDecrease;
+		}else{
+			energy += energyDecrease;
+		}
+		if (energy <= energyMin) {
+			energy = energyMax;
+			power -= powerDecrease;
+			
+		}
+		if (energy >= energyMax) {
+			energy = energyMax;
+		}
+		
+		
+		
+		checkEdges ();
+		//Debug.Log (energy);
 	}
 }
