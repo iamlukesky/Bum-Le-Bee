@@ -3,9 +3,9 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	public AudioClip buzzSound;
-	public AudioClip flapSound;
-	private AudioSource source;
+	//public AudioClip buzzSound;
+	//public AudioClip flapSound;
+	//private AudioSource source;
 
 	private bool facingRight = false;
 
@@ -36,10 +36,10 @@ public class PlayerController : MonoBehaviour {
 	void Start () {
 		animator = GetComponent<Animator>();
 		rb = GetComponent<Rigidbody2D> ();
-		source = GetComponent<AudioSource> ();
+		//source = GetComponent<AudioSource> ();
 
-		source.clip = buzzSound;
-		source.loop = true;
+		//source.clip = buzzSound;
+		//source.loop = true;
 		//source.Play ();
 
 	}
