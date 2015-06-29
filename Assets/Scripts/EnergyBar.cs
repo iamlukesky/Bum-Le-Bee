@@ -14,7 +14,7 @@ public class EnergyBar : MonoBehaviour {
 	void Update () {
 		int energyIndex;
 		energyIndex = (int)player.energy - 1;
-		Debug.Log (energyIndex);
+		//Debug.Log (energyIndex);
 		/*
 		if (energyIndex >= energylevels.Length) {
 			energyIndex = energylevels.Length;

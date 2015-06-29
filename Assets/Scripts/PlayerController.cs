@@ -3,9 +3,19 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-	//public AudioClip buzzSound;
-	//public AudioClip flapSound;
-	//private AudioSource source;
+	public int deathLevel;
+
+	public bool alive = true;
+
+	public float energyDecay = 0.001f;
+
+	private float lastTime;
+
+	public AudioClip morr;
+	public AudioClip drickljud;
+	public AudioClip blomljud;
+	public AudioClip buzzSound;
+	private AudioSource source;
 
 	private bool facingRight = false;
 
@@ -15,7 +25,11 @@ public class PlayerController : MonoBehaviour {
 	public int leftEdge;
 	public int topEdge;
 	public int bottomEdge;
+	public int energyForFlower;
+	public int energyForBooze;
 	private Animator animator;
+
+	public float pickupVelocity;
 
 	public float energy;
 	public float energyDecrease;
@@ -30,17 +44,19 @@ public class PlayerController : MonoBehaviour {
 
 	private bool flapping = false;
 
+	//public BlomFabrik blomfabrik;
+
 
 
 	// Use this for initialization
 	void Start () {
 		animator = GetComponent<Animator>();
 		rb = GetComponent<Rigidbody2D> ();
-		//source = GetComponent<AudioSource> ();
+		source = GetComponent<AudioSource> ();
 
-		//source.clip = buzzSound;
-		//source.loop = true;
-		//source.Play ();
+		source.clip = buzzSound;
+		source.loop = true;
+		source.Play ();
 
 	}
 	
@@ -86,10 +102,33 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){ //Collider2D
-		if (other.gameObject.CompareTag("Pick Up") && rb.velocity.magnitude < 2) {
+		if (other.gameObject.CompareTag("Pick Up") && rb.velocity.magnitude < pickupVelocity) {
+			other.gameObject.SetActive(false);
+			source.PlayOneShot(blomljud, 1);
+			//Destroy(other.gameObject);
+			//blomfabrik.blommor.Remove(other.gameObject);
+			Debug.Log("Removed flower");
+			//int nrOfFLowers = blomfabrik.Count;
+			//Debug.Log ("Number of flowers = " + nrOfFlowers);
+			if (energy+energyForFlower<=energyMax) {
+				energy += energyForFlower;
+			}
+
+
+		}
+		if (other.gameObject.CompareTag("Power Up")) {//&& rb.velocity.magnitude < pickupVelocity) {
 			other.gameObject.SetActive(false);
 			//Destroy(other.gameObject);
-			//Debug.Log("Träff");
+			//blomfabrik.blommor.Remove(other.gameObject);
+			Debug.Log("Removed booze");
+			//int nrOfFLowers = blomfabrik.Count;
+			//Debug.Log ("Number of flowers = " + nrOfFlowers);
+			energy = energyMax;
+			if(power-20 > 1){
+			maxVelocity += 5; //0.5;
+			power -= 20;
+			}
+			source.PlayOneShot(drickljud, 1);
 		}
 	}
 
@@ -110,7 +149,7 @@ public class PlayerController : MonoBehaviour {
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 		
-		if (energy <= 0 && moveVertical > 0) {
+		if (energy <= energyMin && moveVertical > 0) {
 			moveVertical = 0;
 		}
 		
@@ -140,16 +179,33 @@ public class PlayerController : MonoBehaviour {
 		if (flapping) {
 			energy -= energyDecrease;
 		}else{
-			energy += energyDecrease;
+			energy -= energyDecay;
 		}
 		if (energy <= energyMin) {
-			energy = energyMax;
-			power -= powerDecrease;
-			
+			//energy = energyMax;
+			//power -= powerDecrease;
+			energy = energyMin;
 		}
 		if (energy >= energyMax) {
 			energy = energyMax;
 		}
+
+		if (transform.position.y < deathLevel && alive) {
+			//if(alive){
+				animator.SetTrigger("deathAnim");
+				//transform.position = new Vector3(transform.position.x - 0.5f, transform.position.y - 0.5f, 0f);
+				alive = false;
+				rb.isKinematic = true;
+			lastTime = Time.time;
+			source.PlayOneShot(morr, 1);
+			//}
+		}
+
+		if (!alive && Time.time - lastTime > 1.3f) {
+			Application.LoadLevel ("mainMenu");
+		}
+
+
 		
 		checkEdges ();
 		//Debug.Log (energy);
